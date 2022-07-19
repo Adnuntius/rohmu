@@ -297,6 +297,9 @@ class S3Transfer(BaseTransfer):
         start_of_multipart_upload = time.monotonic()
         bytes_sent = 0
 
+        if size is None and 'Content-Length' in metadata:
+            size = metadata['Content-Length']
+
         chunks = "Unknown"
         if size is not None:
             chunks = math.ceil(size / self.multipart_chunk_size)
